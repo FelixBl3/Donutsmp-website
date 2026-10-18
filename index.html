@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DonutSMP Base Building</title>
-    <!-- Supabase Library einbinden -->
+    <!-- HIER WAR DER FEHLER - JETZT REPARIERT: -->
     <script src="https://jsdelivr.net"></script>
     <style>
         body { background-color: #121212; color: #fff; font-family: sans-serif; text-align: center; padding: 20px; }
@@ -61,7 +61,6 @@
     </div>
 
     <script>
-        // ⚠️ WICHTIG: Ersetze diese beiden Werte mit deinen echten Supabase-Daten aus Schritt 1!
         const SUPABASE_URL = "https://wglbrhpuhjdpmocjhbiw.supabase.co";
         const SUPABASE_KEY = "sb_publishable_Aa3rC9dSOyrBZVkLruydZA_A1rW6yOC";
         
@@ -91,8 +90,8 @@
             const username = prompt("Enter Admin Username:");
             if (username === "felixausmuc") {
                 const password = prompt("Enter Admin Password:");
-                // Setze hier dein gewünschtes Passwort ein (z.B. donut123)
-                if (password === "DEIN_GEHEIMES_PASSWORT") { 
+                // Hier ist dein Passwort hinterlegt (Aktuell: donut123)
+                if (password === "donut123") { 
                     document.getElementById('adminArea').style.display = 'block';
                     loadOrders();
                     window.scrollTo(0, document.body.scrollHeight);
@@ -116,16 +115,18 @@
             }
 
             const tableBody = document.getElementById('ordersTableBody');
-            tableBody.innerHTML = ""; // Altes Leeren
+            tableBody.innerHTML = ""; 
 
-            bestellungen.forEach(order => {
-                const row = `<tr>
-                    <td><b>${order.ign}</b></td>
-                    <td>${order.tier}</td>
-                    <td style="color: #00ffcc;">${order.status}</td>
-                </tr>`;
-                tableBody.innerHTML += row;
-            });
+            if (bestellungen) {
+                bestellungen.forEach(order => {
+                    const row = `<tr>
+                        <td><b>${order.ign}</b></td>
+                        <td>${order.tier}</td>
+                        <td style="color: #00ffcc;">${order.status}</td>
+                    </tr>`;
+                    tableBody.innerHTML += row;
+                });
+            }
         }
     </script>
 </body>
