@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DonutSMP Base Building</title>
-    <!-- HIER WAR DER FEHLER - JETZT REPARIERT: -->
     <script src="https://jsdelivr.net"></script>
     <style>
         body { background-color: #121212; color: #fff; font-family: sans-serif; text-align: center; padding: 20px; }
         .card { background: #1e1e1e; border: 2px solid #ff007f; padding: 20px; border-radius: 10px; max-width: 500px; margin: 20px auto; }
-        input, select, button { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; font-size: 16px; }
+        input, select, button { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; font-size: 16px; box-sizing: border-box; }
         button { background: #ff007f; color: white; font-weight: bold; cursor: pointer; }
         button:hover { background: #ff3399; }
         .admin-section { display: none; margin-top: 5px; border-top: 3px dashed #ff007f; padding-top: 40px; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { border: 1px solid #ff007f; padding: 10px; text-align: left; }
         th { background: #ff007f; }
+        .login-box { display: none; max-width: 300px; margin: 20px auto; border: 1px solid #444; padding: 15px; border-radius: 5px; background: #1a1a1a; }
     </style>
 </head>
 <body>
@@ -39,10 +39,18 @@
         <p id="orderStatus" style="color: #00ffcc; font-weight: bold;"></p>
     </div>
 
-    <!-- ADMIN-LOGIN-BUTTON (Dezent unten auf der Seite) -->
-    <p style="margin-top: 100px; color: #444; font-size: 12px; cursor: pointer;" onclick="showLogin()">🛡️ Admin Portal</p>
+    <!-- NEU: DEZENTER LOGIN TRIGGER -->
+    <p style="margin-top: 100px; color: #444; font-size: 12px; cursor: pointer;" onclick="toggleLoginBox()">🛡️ Admin Portal</p>
 
-    <!-- GEHEIMER ADMIN-BEREICH (Wird erst nach Login für felixausmuc sichtbar) -->
+    <!-- NEU: FESTES ANMELDEFELD AUF DER SEITE (Umgeht die Browser-Blockade) -->
+    <div id="loginBox" class="login-box">
+        <h3>Admin Login</h3>
+        <input type="text" id="adminUser" placeholder="Username">
+        <input type="password" id="adminPass" placeholder="Password">
+        <button onclick="checkAdminLogin()">Login</button>
+    </div>
+
+    <!-- GEHEIMER ADMIN-BEREICH -->
     <div id="adminArea" class="admin-section">
         <h2>👑 Orders Dashboard (Welcome felixausmuc)</h2>
         <button onclick="loadOrders()" style="background: #00ffcc; color: black; max-width: 200px;">Refresh Orders</button>
@@ -66,7 +74,7 @@
         
         const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // 1. BESTELLUNG ABSCHICKEN (Für User)
+        // 1. BESTELLUNG ABSCHICKEN
         document.getElementById('orderForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const ign = document.getElementById('customerIGN').value;
@@ -85,25 +93,28 @@
             }
         });
 
-        // 2. GEHEIMER ADMIN LOGIN FOR FELIXAUSMUC
-        function showLogin() {
-            const username = prompt("Enter Admin Username:");
-            if (username === "felixausmuc") {
-                const password = prompt("Enter Admin Password:");
-                // Hier ist dein Passwort hinterlegt (Aktuell: donut123)
-                if (password === "donut123") { 
-                    document.getElementById('adminArea').style.display = 'block';
-                    loadOrders();
-                    window.scrollTo(0, document.body.scrollHeight);
-                } else {
-                    alert("Wrong password!");
-                }
+        // 2. ANMELDEFELD ANZEIGEN / VERBERGEN
+        function toggleLoginBox() {
+            const box = document.getElementById('loginBox');
+            box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+        }
+
+        // 3. ADMIN LOGIN PRÜFEN
+        function checkAdminLogin() {
+            const user = document.getElementById('adminUser').value;
+            const pass = document.getElementById('adminPass').value;
+
+            if (user === "felixausmuc" && pass === "donut123") {
+                document.getElementById('loginBox').style.display = 'none';
+                document.getElementById('adminArea').style.display = 'block';
+                loadOrders();
+                window.scrollTo(0, document.body.scrollHeight);
             } else {
-                alert("Access denied. Only felixausmuc has access!");
+                alert("Falscher Username oder Passwort!");
             }
         }
 
-        // 3. BESTELLUNGEN AUS DER DATENBANK LADEN
+        // 4. BESTELLUNGEN AUS DER DATENBANK LADEN
         async function loadOrders() {
             const { data: bestellungen, error } = await supabase
                 .from('bestellungen')
@@ -131,3 +142,4 @@
     </script>
 </body>
 </html>
+
