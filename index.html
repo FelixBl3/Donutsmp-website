@@ -3,317 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DonutSMP Premium Base Building</title>
+    <title>DonutSMP Base Building</title>
+    <!-- Supabase Library einbinden -->
+    <script src="https://jsdelivr.net"></script>
     <style>
-        :root {
-            --primary: #ff69b4;
-            --primary-hover: #ff4500;
-            --dark-bg: #121212;
-            --card-bg: #1e1e1e;
-            --text-main: #ffffff;
-            --text-muted: #b3b3b3;
-            --small-tier: #cd7f32;
-            --vip-tier: #ffd700;
-            --pres-tier: #00ffff;
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--dark-bg);
-            color: var(--text-main);
-            line-height: 1.6;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            padding: 40px 0;
-            border-bottom: 2px solid #2e2e2e;
-            margin-bottom: 40px;
-        }
-
-        header h1 {
-            font-size: 3rem;
-            color: var(--primary);
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
-        }
-
-        header p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-        }
-
-        .promo-banner {
-            background: linear-gradient(45deg, #ff4500, #ff69b4);
-            color: #fff;
-            text-align: center;
-            padding: 15px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 1.3rem;
-            margin-bottom: 40px;
-            box-shadow: 0 4px 15px rgba(255, 69, 0, 0.4);
-        }
-
-        .tiers {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border: 2px solid #2e2e2e;
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            transition: transform 0.3s, border-color 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-        }
-
-        .card.small-base { border-color: var(--small-tier); }
-        .card.vip-base { border-color: var(--vip-tier); }
-        .card.president-base { border-color: var(--pres-tier); }
-
-        .card h2 {
-            font-size: 2rem;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-        }
-
-        .card.small-base h2 { color: var(--small-tier); }
-        .card.vip-base h2 { color: var(--vip-tier); }
-        .card.president-base h2 { color: var(--pres-tier); }
-
-        .price {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        
-        .price span {
-            font-size: 1rem;
-            color: var(--text-muted);
-            display: block;
-            font-weight: normal;
-            margin-top: -5px;
-        }
-
-        .features {
-            list-style: none;
-            text-align: left;
-            margin: 25px 0;
-            color: var(--text-muted);
-        }
-
-        .features li {
-            margin-bottom: 10px;
-            position: relative;
-            padding-left: 25px;
-        }
-
-        .features li::before {
-            content: "✔";
-            position: absolute;
-            left: 0;
-            color: #00ff00;
-        }
-
-        .benefits {
-            background-color: var(--card-bg);
-            padding: 40px;
-            border-radius: 12px;
-            margin-bottom: 50px;
-            border: 1px solid #2e2e2e;
-        }
-
-        .benefits h3 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            color: var(--primary);
-            text-align: center;
-        }
-
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .benefit-item h4 {
-            font-size: 1.2rem;
-            color: #fff;
-            margin-bottom: 8px;
-        }
-
-        .benefit-item p {
-            color: var(--text-muted);
-        }
-
-        .cta-section {
-            text-align: center;
-            background: linear-gradient(135deg, #1e1e1e, #2e2e2e);
-            padding: 50px;
-            border-radius: 12px;
-            border: 2px solid var(--primary);
-        }
-
-        .cta-section h3 {
-            font-size: 2.2rem;
-            margin-bottom: 15px;
-        }
-
-        .cta-section p {
-            color: var(--text-muted);
-            margin-bottom: 30px;
-            font-size: 1.1rem;
-        }
-
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            background-color: #2e2e2e;
-            color: #fff;
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-weight: bold;
-            text-decoration: none;
-            border: 2px solid transparent;
-            transition: all 0.3s;
-            font-size: 1.1rem;
-        }
-
-        .btn-ingame {
-            border-color: #ff4500;
-        }
-        .btn-ingame:hover {
-            background-color: #ff4500;
-            box-shadow: 0 0 15px rgba(255, 69, 0, 0.4);
-        }
-
-        .btn-discord {
-            border-color: #5865F2;
-        }
-        .btn-discord:hover {
-            background-color: #5865F2;
-            box-shadow: 0 0 15px rgba(88, 101, 242, 0.4);
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 60px;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
+        body { background-color: #121212; color: #fff; font-family: sans-serif; text-align: center; padding: 20px; }
+        .card { background: #1e1e1e; border: 2px solid #ff007f; padding: 20px; border-radius: 10px; max-width: 500px; margin: 20px auto; }
+        input, select, button { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; font-size: 16px; }
+        button { background: #ff007f; color: white; font-weight: bold; cursor: pointer; }
+        button:hover { background: #ff3399; }
+        .admin-section { display: none; margin-top: 5px; border-top: 3px dashed #ff007f; padding-top: 40px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ff007f; padding: 10px; text-align: left; }
+        th { background: #ff007f; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>DonutSMP Base Building</h1>
-            <p>Epic, secure, and professional bases tailored to your empire.</p>
-        </header>
+    <h1>🍩 DonutSMP Base Building 🍩</h1>
+    <p>Get your ultimate, unraidable custom base today!</p>
 
-        <div class="promo-banner">
-            💥 MEGA DEAL: I COVER ALL BUILDING MATERIAL COSTS! 💥
-        </div>
-
-        <section class="tiers">
-            <!-- Small Base -->
-            <div class="card small-base">
-                <h2>Small Base</h2>
-                <div class="price">10M<br><span>Price Negotiable</span></div>
-                <ul class="features">
-                    <li>Perfect for Solo Players</li>
-                    <li>Compact & highly functional</li>
-                    <li>Essential starter protections</li>
-                    <li>Sorted starter storage</li>
-                </ul>
-            </div>
-
-            <!-- VIP Base -->
-            <div class="card vip-base">
-                <h2>VIP Base</h2>
-                <div class="price">25M<br><span>Price Negotiable</span></div>
-                <ul class="features">
-                    <li>Advanced base security</li>
-                    <li>Automated money & XP farms</li>
-                    <li>Massive storage systems</li>
-                    <li>Great for small teams or duos</li>
-                </ul>
-            </div>
-
-            <!-- President Base -->
-            <div class="card president-base">
-                <h2>President Base</h2>
-                <div class="price">75M<br><span>Price Negotiable</span></div>
-                <ul class="features">
-                    <li>The ultimate server flex</li>
-                    <li>Gigantic custom mega-structure</li>
-                    <li>100% Unraidable/Bunker designs</li>
-                    <li>Maxed-out automated systems</li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="benefits">
-            <h3>Why Choose My Service?</h3>
-            <div class="benefits-grid">
-                <div class="benefit-item">
-                    <h4>Zero Material Costs</h4>
-                    <p>You don't need to mine or purchase blocks. I cover 100% of the material expenses.</p>
-                </div>
-                <div class="benefit-item">
-                    <h4>100% Discretion</h4>
-                    <p>Your base location and coordinates will remain completely secret. Absolute privacy guaranteed.</p>
-                </div>
-                <div class="benefit-item">
-                    <h4>Fast Construction</h4>
-                    <p>No endless waiting. I work efficiently to get your claim ready for action as fast as possible.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="cta-section">
-            <h3>Secure Your Building Slot Now!</h3>
-            <p>Prices are fully negotiable. Let's find a deal that perfectly fits your current budget.</p>
-            <div class="contact-info">
-                <a href="#" class="btn btn-ingame">Ingame: /msg [YourName]</a>
-                <a href="#" class="btn btn-discord">Discord: [YourTag]</a>
-            </div>
-        </section>
-
-        <footer>
-            <p>&copy; 2026 DonutSMP Base Building Service. Worlds best bases for the best players.</p>
-        </footer>
+    <!-- KUNDEN-BEREICH: BESTELLFORMULAR -->
+    <div class="card">
+        <h2>Place an Order</h2>
+        <form id="orderForm">
+            <input type="text" id="customerIGN" placeholder="Your Minecraft Username (IGN)" required>
+            <select id="baseTier" required>
+                <option value="">-- Choose a Base Tier --</option>
+                <option value="Small (10M)">Small Base - 10M</option>
+                <option value="VIP (25M)">VIP Base - 25M</option>
+                <option value="President (75M)">President Base - 75M</option>
+            </select>
+            <button type="submit">Submit Order</button>
+        </form>
+        <p id="orderStatus" style="color: #00ffcc; font-weight: bold;"></p>
     </div>
 
+    <!-- ADMIN-LOGIN-BUTTON (Dezent unten auf der Seite) -->
+    <p style="margin-top: 100px; color: #444; font-size: 12px; cursor: pointer;" onclick="showLogin()">🛡️ Admin Portal</p>
+
+    <!-- GEHEIMER ADMIN-BEREICH (Wird erst nach Login für felixausmuc sichtbar) -->
+    <div id="adminArea" class="admin-section">
+        <h2>👑 Orders Dashboard (Welcome felixausmuc)</h2>
+        <button onclick="loadOrders()" style="background: #00ffcc; color: black; max-width: 200px;">Refresh Orders</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>IGN</th>
+                    <th>Base Tier</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="ordersTableBody">
+                <!-- Bestellungen werden hier dynamisch geladen -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // ⚠️ WICHTIG: Ersetze diese beiden Werte mit deinen echten Supabase-Daten aus Schritt 1!
+        const SUPABASE_URL = "HIER_DEINE_SUPABASE_URL_EINFÜGEN";
+        const SUPABASE_KEY = "HIER_DEINEN_ANON_KEY_EINFÜGEN";
+        
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // 1. BESTELLUNG ABSCHICKEN (Für User)
+        document.getElementById('orderForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const ign = document.getElementById('customerIGN').value;
+            const tier = document.getElementById('baseTier').value;
+
+            const { data, error } = await supabase
+                .from('bestellungen')
+                .insert([{ ign: ign, tier: tier, status: 'Offen' }]);
+
+            if (error) {
+                document.getElementById('orderStatus').innerText = "Error submitting order. Try again!";
+                console.error(error);
+            } else {
+                document.getElementById('orderStatus').innerText = "✅ Order submitted successfully! I will contact you ingame.";
+                document.getElementById('orderForm').reset();
+            }
+        });
+
+        // 2. GEHEIMER ADMIN LOGIN FOR FELIXAUSMUC
+        function showLogin() {
+            const username = prompt("Enter Admin Username:");
+            if (username === "felixausmuc") {
+                const password = prompt("Enter Admin Password:");
+                // Setze hier dein gewünschtes Passwort ein (z.B. donut123)
+                if (password === "DEIN_GEHEIMES_PASSWORT") { 
+                    document.getElementById('adminArea').style.display = 'block';
+                    loadOrders();
+                    window.scrollTo(0, document.body.scrollHeight);
+                } else {
+                    alert("Wrong password!");
+                }
+            } else {
+                alert("Access denied. Only felixausmuc has access!");
+            }
+        }
+
+        // 3. BESTELLUNGEN AUS DER DATENBANK LADEN
+        async function loadOrders() {
+            const { data: bestellungen, error } = await supabase
+                .from('bestellungen')
+                .select('*');
+
+            if (error) {
+                console.error("Error fetching orders:", error);
+                return;
+            }
+
+            const tableBody = document.getElementById('ordersTableBody');
+            tableBody.innerHTML = ""; // Altes Leeren
+
+            bestellungen.forEach(order => {
+                const row = `<tr>
+                    <td><b>${order.ign}</b></td>
+                    <td>${order.tier}</td>
+                    <td style="color: #00ffcc;">${order.status}</td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+    </script>
 </body>
 </html>
